@@ -21,11 +21,11 @@ void Automaton::setup()
 {
 	SetTargetFPS(15);
 
-	this->grid = std::vector<std::vector<int>>(this->HEIGHT);
+	this->grid = std::vector<std::vector<int>>(this->HEIGHT + 1);
 	srand(time(0));
 	for (int i = 0; i < this->HEIGHT; i++)
 	{
-		this->grid[i].resize(this->WIDTH);
+		this->grid[i].resize(this->WIDTH + 1);
 	}
 
 	for (int i = 0; i < this->HEIGHT; i++)
@@ -43,9 +43,9 @@ void Automaton::render()
 
 	ClearBackground(RAYWHITE);
 
-	for (int i = 0; i < this->HEIGHT - 1; i++)
+	for (int i = 0; i < this->HEIGHT; i++)
 	{
-		for (int j = 0; j < this->WIDTH - 1; j++)
+		for (int j = 0; j < this->WIDTH; j++)
 		{
 			if (grid[i][j] == Types::paper)
 				DrawRectangle(i * this->pixel_size, j * this->pixel_size, this->pixel_size, this->pixel_size, RED);
@@ -65,9 +65,9 @@ void Automaton::processEvents()
 
 void Automaton::update()
 {
-	for (int i = 0; i < this->HEIGHT - 1; i++)
+	for (int i = 0; i < this->HEIGHT; i++)
 	{
-		for (int j = 0; j < this->WIDTH - 1; j++)
+		for (int j = 0; j < this->WIDTH; j++)
 		{
 			switch (this->grid[i][j])
 			{
@@ -114,6 +114,8 @@ std::vector<int> Automaton::countNeighbors(int x, int y)
 			if (!(dx == 0 && dy == 0))
 			{
 				int cell = this->grid[(x + dx + this->WIDTH) % this->WIDTH][(y + dy + this->HEIGHT) % this->HEIGHT];
+				if (cell > 3)
+					continue;
 				out[cell]++;
 			}
 		}
