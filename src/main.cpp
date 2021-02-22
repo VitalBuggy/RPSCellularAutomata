@@ -3,6 +3,6 @@
 
 int main()
 {
-    Automaton automaton(800, 600, 8, "Bruh");
+    Automaton automaton(800, 600, 8, "RPS");
     automaton.run();
 }
