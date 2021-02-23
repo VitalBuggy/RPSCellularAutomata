@@ -1,25 +1,15 @@
 
 // Avoid circular dependencies
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 #include "Automaton.h"
 #include "./../include/raylib-cpp.hpp"
 #include <string>
 #include <iostream>
 #include <cstdlib>
 
-Automaton::Automaton(int height, int width, int pixel_size, std::string window_name = "Cellular Automaton")
-{
-	this->HEIGHT = height / pixel_size;
-	this->WIDTH = width / pixel_size;
-	this->pixel_size = pixel_size;
-	this->WINDOW_NAME = window_name;
-	this->window = new raylib::Window(height, width, this->WINDOW_NAME);
-}
-
 void Automaton::setup()
 {
-	SetTargetFPS(15);
+	SetTargetFPS(11);
 
 	this->grid = std::vector<std::vector<int>>(this->HEIGHT + 1);
 	srand(time(0));
@@ -48,11 +38,11 @@ void Automaton::render()
 		for (int j = 0; j < this->WIDTH; j++)
 		{
 			if (grid[i][j] == Types::paper)
-				DrawRectangle(i * this->pixel_size, j * this->pixel_size, this->pixel_size, this->pixel_size, RED);
+				DrawRectangle(i * this->pixel_size, j * this->pixel_size, this->pixel_size, this->pixel_size, CLITERAL(Color){255, 16, 88, 255});
 			else if (grid[i][j] == Types::rock)
-				DrawRectangle(i * this->pixel_size, j * this->pixel_size, this->pixel_size, this->pixel_size, GREEN);
+				DrawRectangle(i * this->pixel_size, j * this->pixel_size, this->pixel_size, this->pixel_size, CLITERAL(Color){130, 255, 111, 255});
 			else if (grid[i][j] == Types::scissors)
-				DrawRectangle(i * this->pixel_size, j * this->pixel_size, this->pixel_size, this->pixel_size, BLUE);
+				DrawRectangle(i * this->pixel_size, j * this->pixel_size, this->pixel_size, this->pixel_size, CLITERAL(Color){19, 141, 255, 255});
 		}
 	}
 	EndDrawing();
@@ -72,20 +62,17 @@ void Automaton::update()
 			switch (this->grid[i][j])
 			{
 			case Types::rock:
-				if (countNeighbors(i, j)[2] > 2)
+				if (countNeighbors(i, j)[Types::paper] > 2)
 					this->grid[i][j] = Types::paper;
 				continue;
 			case Types::paper:
-				if (countNeighbors(i, j)[3] > 2)
+				if (countNeighbors(i, j)[Types::scissors] > 2)
 					this->grid[i][j] = Types::scissors;
 				continue;
 			case Types::scissors:
-				if (countNeighbors(i, j)[1] > 2)
+				if (countNeighbors(i, j)[Types::rock] > 2)
 					this->grid[i][j] = Types::rock;
 				continue;
-			default:
-			{
-			}
 			}
 		}
 	}
@@ -123,5 +110,3 @@ std::vector<int> Automaton::countNeighbors(int x, int y)
 
 	return out;
 }
-
-#endif
