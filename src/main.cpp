@@ -9,5 +9,5 @@ int main(int argc, char **args)
     Automaton automaton(600, 400, 8, "RPS");
     srand(time(0));
 
-    automaton.run(rand());
+    (argc < 2 ? automaton.run(rand()) : automaton.run(atoi(args[1])));
 }

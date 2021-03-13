@@ -90,7 +90,7 @@ std::vector<int> Automaton::countNeighbors(int x, int y)
 		for (int dy = -1; dy <= 1; dy++)
 			if (!(dx == 0 && dy == 0))
 			{
-				int cell = this->grid[(x + dx + this->WIDTH) % this->WIDTH][(y + dy + this->HEIGHT) % this->HEIGHT];
+				unsigned int cell = this->grid[(x + dx + this->WIDTH) % this->WIDTH][(y + dy + this->HEIGHT) % this->HEIGHT];
 				if (cell > 3)
 					continue;
 				out[cell]++;
