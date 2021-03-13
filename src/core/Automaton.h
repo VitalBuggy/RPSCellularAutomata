@@ -8,7 +8,7 @@ private:
 	void update();
 	void render();
 	void processEvents();
-	void setup();
+	void setup(int seed);
 	std::vector<int> countNeighbors(int x, int y); // return an array where the index corresponds to the type of the cell and the value is the amount of them. 0: rock 1: paper 2: scissors
 
 public:
@@ -20,7 +20,7 @@ public:
 		WINDOW_NAME = window_name;
 		window = new raylib::Window(height, width, this->WINDOW_NAME);
 	}
-	void run();
+	void run(int seed);
 
 private:
 	int HEIGHT;
