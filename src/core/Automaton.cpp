@@ -3,9 +3,6 @@
 #pragma once
 #include "Automaton.h"
 #include "./../include/raylib-cpp.hpp"
-#include <string>
-#include <iostream>
-#include <cstdlib>
 
 void Automaton::setup(int seed)
 {

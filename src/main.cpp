@@ -1,8 +1,6 @@
 #include "stdio.h"
 #include "core/Automaton.h"
 #include <cstring>
-#include <stdio.h>
-#include <iostream>
 
 int main(int argc, char **args)
 {

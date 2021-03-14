@@ -50,7 +50,7 @@ else
 endif
 
 # Lists phony targets for Makefile
-.PHONY: all setup submodules execute clean
+.PHONY: all setup submodules clean
 
 # Default target, compiles, executes and cleans
 all: $(target) execute 

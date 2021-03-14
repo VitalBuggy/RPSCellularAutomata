@@ -1,6 +1,5 @@
 #include "./../include/raylib-cpp.hpp"
 #include <vector>
-#include <string>
 
 class Automaton
 {
