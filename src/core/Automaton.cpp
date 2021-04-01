@@ -7,17 +7,21 @@
 void Automaton::setup(int seed)
 {
 	// Set the Target Frame rate to the defined value
-	SetTargetFPS(15);
+	SetTargetFPS(30);
 
 	// Generate a new grid with random values in the form of a 2D vector
 	this->grid = std::vector<std::vector<int>>(this->HEIGHT + 1);
+	this->grid_tmp = std::vector<std::vector<int>>(this->HEIGHT + 1);
 	srand(seed);
 	for (int i = 0; i < this->HEIGHT; i++)
+	{
 		this->grid[i].resize(this->WIDTH + 1);
+		this->grid_tmp[i].resize(this->WIDTH + 1);
+	}
 
 	for (int i = 0; i < this->HEIGHT; i++)
 		for (int j = 0; j < this->WIDTH; j++)
-			grid[i][j] = (rand() % 3) + 1;
+			this->grid[i][j] = (rand() % 3) + 1;
 }
 
 // Render method: renders the values in the grid
@@ -46,23 +50,33 @@ void Automaton::processEvents()
 // Check neighbors around each cell and update accordingly
 void Automaton::update()
 {
+	// copy current grid into a temporary one
+	for (int i = 0; i < this->HEIGHT; i++)
+		for (int j = 0; j < this->WIDTH; j++)
+			grid_tmp[i][j] = grid[i][j];
+
 	for (int i = 0; i < this->HEIGHT; i++)
 		for (int j = 0; j < this->WIDTH; j++)
 			switch (this->grid[i][j])
 			{
 			case Types::rock:
 				if (countNeighbors(i, j)[Types::paper] > 2)
-					this->grid[i][j] = Types::paper;
+					this->grid_tmp[i][j] = Types::paper;
 				continue;
 			case Types::paper:
 				if (countNeighbors(i, j)[Types::scissors] > 2)
-					this->grid[i][j] = Types::scissors;
+					this->grid_tmp[i][j] = Types::scissors;
 				continue;
 			case Types::scissors:
 				if (countNeighbors(i, j)[Types::rock] > 2)
-					this->grid[i][j] = Types::rock;
+					this->grid_tmp[i][j] = Types::rock;
 				continue;
 			}
+
+	// Copy the new grid to the origial, the one to be rendered
+	for (int i = 0; i < this->HEIGHT; i++)
+		for (int j = 0; j < this->WIDTH; j++)
+			grid[i][j] = grid_tmp[i][j];
 }
 
 // Main loop
